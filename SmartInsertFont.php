@@ -12,27 +12,28 @@
       inclusion in .eps file
     */
 
+   require_once("fatal.php");
+
    function SmartInsertFont($fontname,$path_regex="//") {
-      $esa=escapeshellarg($fontname);
-      exec("locate $esa",$output_ary,$return_value);
+      /* escape the font name, as it will be passed to a shell function */
+      $esa=escapeshellarg("\\".$fontname);
+      /* use locate -b (only match basename)
+         moreover, the font name has been prepended with a backslash
+         so that locate matches that name exactly */
+      exec("locate -b $esa",$found_ary,$return_value);
       if($return_value!=0) {
-         die("Error in LocateFont while processing locate");
+         fatal("Error in LocateFont while processing locate: maybe there are no found fonts. Returned $return_value.",$retrn_value);
       }
-      /* Make sure we have the correct font */
-      $found=array();
-      foreach($output_ary as $i) {
-         $dir=dirname($i);
-         $name=basename($i);
-         if($name==$fontname) {
-            $found_ary[]=array($dir,$name);
-         }
+      /* Separate the font name with the directory name */
+      $old_found_ary=$found_ary;
+      $found_ary=array();
+      foreach($old_found_ary as $i) {
+         $found_ary[]=array(dirname($i),basename($i));
       }
       $nb=count($found_ary);
-      if($nb==0) {
-         die("Couldn't find font $fontname");
-      }
-      elseif($nb>1) {
-         /* Found more than one font file */
+      if($nb>1) {
+         /* Found more than one font file.
+            Will filter with respect to the directory name */
          $old_found_ary=$found_ary;
          $found_ary=array();
          foreach($old_found_ary as $i) {
@@ -62,9 +63,9 @@
          $name=$found_ary[0][1];
       }
       $fontname=escapeshellarg("$dir/$name");
-      $font_string=passthru("t1ascii $fontname",$retval);
-      if($retval!=0) {
-         die("Error in SmartInsertFont: error while processing t1ascii\n");
+      $font_string=passthru("t1ascii $fontname",$return_value);
+      if($return_value!=0) {
+         fatal("Error in SmartInsertFont: error while processing t1ascii.",$return_value);
       }
    }
 ?>
