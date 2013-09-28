@@ -12,4 +12,3 @@
       exit($error_code);
    }
 ?>
-
