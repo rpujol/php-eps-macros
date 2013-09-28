@@ -1,0 +1,65 @@
+\documentclass[a4paper]{scrartcl}
+
+\title{\texttt{php-eps-macros}}
+\subtitle{A set of helper macros in PHP to write EPS}
+\author{Romaric Pujol\\\footnotesize{\texttt{romaric.pujol@insa-lyon.fr}}}
+\date{September 28, 2013}
+
+\usepackage{listings}
+
+\newcommand\code[1]{\lstinline{#1}}
+
+\lstset{showspaces=false,showstringspaces=false}
+\lstset{basicstyle=\footnotesize\ttfamily}
+
+\begin{document}
+\maketitle
+\section{Introduction}
+This document describes a set of PHP helper files and scripts to generate EPS
+   (Encapsulated PostScript) files.
+When writing documents in \LaTeX, the author might want to include figures in
+   it.
+Figures can be generated in many ways by many existing softwares, but the
+   author might want to make its own from scratch.
+If she likes programming, the PostScript language is a wonderful option to
+   consider seriously.
+
+In this document, we assume that the reader is already familiar with EPS files.
+
+\section{Directory Content}
+\begin{itemize}
+\item \texttt{eps-header.php}
+\item \texttt{fatal.php}
+\item \texttt{SmartInsertFont.php}
+\end{itemize}
+
+\section{Structure of the PHP file}
+The PHP file should start as follows:
+\lstset{language=PHP}
+\begin{lstlisting}
+<?php
+   $lx=0;
+   $ly=0;
+   $ux=200;
+   $uy=300;
+   $author="Romaric Pujol";
+   $title="An EPS example file";
+   $date="2013/09/28";
+   require_once("eps-header.php");
+?>
+\end{lstlisting}
+
+Then, running \code{php file.php} will output the following EPS header:
+\begin{lstlisting}
+%!PS-Adobe-2.0 EPSF-3.0
+%%BoundingBox: 0 0 200 300
+%%Creator: Romaric Pujol
+%%CreationDate: 2013/09/28
+%%Title: An EPS example file
+%%Pages: 1
+%%EndComments
+\end{lstlisting}
+
+Afterwards, you're free to mix PHP and EPS.
+\end{document}
+

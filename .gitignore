@@ -1,0 +1,4 @@
+doc/*.aux
+doc/*.fdb_latexmk
+doc/*.log
+doc/*.pdf
