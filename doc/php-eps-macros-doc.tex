@@ -9,16 +9,20 @@
 \usepackage{listings}
 \usepackage{caption}
 
+\usepackage{amsmath}
+
 \newcommand\code[1]{\lstinline{#1}}
 
 \lstset{showspaces=false,showstringspaces=false}
 \lstset{basicstyle=\footnotesize\ttfamily}
 
+\newcommand\PS{PostScript}
+
 \begin{document}
 \maketitle
 \section{Introduction}
 This document describes a set of PHP helper files and scripts to generate EPS
-   (Encapsulated PostScript) files.
+   (Encapsulated \PS) files.
 When writing documents in \LaTeX, the author might want to include figures in
    it.
 Figures can be generated in many ways by many existing softwares, but the
@@ -26,7 +30,8 @@ Figures can be generated in many ways by many existing softwares, but the
 If she likes programming, the PostScript language is a wonderful option to
    consider seriously.
 
-In this document, we assume that the reader is already familiar with EPS files.
+In this document, we assume that the reader is already familiar with EPS files
+and the \PS{} language.
 
 \section{Directory Content}
 \begin{itemize}
@@ -34,6 +39,7 @@ In this document, we assume that the reader is already familiar with EPS files.
 \item \texttt{coords.php}
 \item \texttt{eps-header.php}
 \item \texttt{fatal.php}
+\item \texttt{plotfunction-bezier-stupid-hom.php}
 \item \texttt{SmartInsertFont.php}
 \item \texttt{vector.php}
 \end{itemize}
@@ -65,11 +71,11 @@ Then, running \code{php file.php} will output the following EPS header:
 %%EndComments
 \end{lstlisting}
 
-Afterwards, you're free to mix PHP and EPS.
+Afterwards, you're free to mix PHP and \PS.
 
 \section{Description of the PHP Files}
 \subsection{\texttt{arrow-header.php} --- Making Arrow heads}
-This file implements one EPS function to draw an arrow head.
+This file implements one \PS{} function to draw an arrow head.
 A typical arrow head is represented on Figure~\ref{fig:arrow-head-explained}.
 \begin{figure}[ht!]%
 \centering
@@ -78,7 +84,7 @@ A typical arrow head is represented on Figure~\ref{fig:arrow-head-explained}.
 \label{fig:arrow-head-explained}
 \end{figure}
 
-The \code{require_once "arrow-head.php"} command will include the EPS function
+The \code{require_once "arrow-head.php"} command will include the \PS{} function
 \texttt{ArrowHead} that draws arrow heads, used with the following syntax:
 \begin{center}
 \textit{angle}\quad$X$\quad$Y$\quad\texttt{ArrowHead}
@@ -86,7 +92,7 @@ The \code{require_once "arrow-head.php"} command will include the EPS function
 where \textit{angle} is the angle (in degrees) from the horizontal,
 counterclockwise (Figure~\ref{fig:arrow-head-explained} shows an angle of $180$
 degrees) and $(X,Y)$ is the coordinate of the vertex of the arrow.
-The EPS function uses the following variables for the dimensions:
+The \PS{} function uses the following variables for the dimensions:
 \begin{itemize}
 \item \texttt{/ArrowHeadAngle}: the angle $\theta$. It is set to $15$ by default,
 \item \texttt{/ArrowHeadProportion}: the ratio $OB/OA$. It is set to $1.67$ by default,
@@ -95,10 +101,11 @@ The EPS function uses the following variables for the dimensions:
 and these values can be modified.
 
 \subsection{\texttt{coords.php} --- Dealing with Coordinates}
-Even though EPS has these wonderful transformation matrices, it is not always
-recommended to use them for change of coordinates, since the transformation
-also changes the strokes (the lines that are drawn). This file will include
-the \texttt{Coords} EPS function, to be used with the following syntax:
+Even though the \PS{} language has these wonderful transformation matrices, it
+is not always recommended to use them for change of coordinates, since the
+transformation also changes the strokes (the lines that are drawn). This file
+will include the \texttt{Coords} \PS{} function, to be used with the following
+syntax:
 \begin{center}
 $x$\quad$y$\quad\texttt{Coords}\quad$X$\quad$Y$
 \end{center}
@@ -119,8 +126,43 @@ in which case the exit code is $1$.
 \end{itemize}
 If this optional argument is not give, the exit code is $1$.
 
+\subsection{\texttt{plotfunction-bezier-stupid-hom.php} --- Plot Graphs of Functions}
+This \PS{} function is to plot graphs of functions using B\'ezier curves (and not
+line segments). The result is usually a beautiful smooth curve that scales very
+well. But there are a few limitations. Read on.
+
+Let me first explain the nomenclature: the part \emph{hom} in the name stands
+for homogeneous, that is the interval is divided into $N$ homogeneous
+subintervals ($N$ is given by the user). The part \emph{stupid} is because each subinterval
+of the subdivision is itself divided into three subintervals of equal lengths to determine
+the control points for the B\'ezier curve. This has some flaws if the function has, e.g.,
+very steep slopes.
+
+To be able to use this \PS{} function to plot graphs, you need to know the derivative of your function.
+The syntax is as follows:
+\begin{center}
+\texttt{\{}$f$\texttt{\}}\quad\texttt{\{}$f'$\texttt{\}}\quad$x_{\text{min}}$\quad$x_{\text{max}}$\quad$N$\quad\texttt{PlotFunctionBezierStupidHom}
+\end{center}
+
+Figure~\ref{fig:plotfunction-bezier-stupid-hom-demo} shows the result of:
+\lstinputlisting[caption=plotfunction-bezier-stupid-hom-demo.php]{figs/plotfunction-bezier-stupid-hom/plotfunction-bezier-stupid-hom-demo.php}
+Notice the use of curly brackets to enclose $f$ and $f'$! Also notice that I
+defined functions \texttt{cosrad} and \texttt{sinrad} being the (regular)
+$\cos$ and $\sin$ functions with the angle given in radians. That's because the
+\PS{} \texttt{cos} and \texttt{sin} functions take an angle in degress.
+
+\begin{figure}[ht!]%
+\centering
+\includegraphics{figs/plotfunction-bezier-stupid-hom/plotfunction-bezier-stupid-hom-demo}%
+\caption{Graph of $\cos$ using the \texttt{plotfunction-bezier-stupid-hom.php} file}%
+\label{fig:plotfunction-bezier-stupid-hom-demo}%
+\end{figure}
+
+Even though \texttt{PlotFunctionBezierStupidHom} is a stupid function with a
+naive algorithm, it still outputs beautiful curves in many cases!
+
 \subsection{\texttt{vector.php} --- Drawing Arrows}
-This file defines the EPS function \texttt{Vector} that draws a line segment
+This file defines the \PS{} function \texttt{Vector} that draws a line segment
 with an arrow head. If the length of the line segment is less than the size
 of the arrow head, nothing is drawn (so as to not have an ugly arrow head on its own).
 The syntax is as follows:
@@ -128,18 +170,18 @@ The syntax is as follows:
 $X_a$\quad$Y_a$\quad$X_b$\quad$Y_b$\quad\texttt{Vector}
 \end{center}
 This will draw a vector from $(X_a,Y_a)$ to $(X_b,Y_b)$. This file implicitly calls
-\texttt{arrow-head.php} and uses the EPS function \texttt{ArrowHead} for the arrow head.
+\texttt{arrow-head.php} and uses the \PS{} function \texttt{ArrowHead} for the arrow head.
 Figure~\ref{fig:vector-demo} represents such a vector.
 \begin{figure}[ht!]%
 \centering
 \includegraphics{figs/vector/vector-demo}%
-\caption{Vectors drawn by the EPS function \texttt{Vector} from file \texttt{vector.php}}%
+\caption{Vectors drawn by the \PS{} function \texttt{Vector} from file \texttt{vector.php}}%
 \label{fig:vector-demo}%
 \end{figure}
 
 \section{Tips}
 In this section I briefly describe my workflow tools for creating \LaTeX{}
-documents with EPS illustrations. It works perfectly well for me. I hope it can
+documents with \PS{} illustrations. It works perfectly well for me. I hope it can
 be useful to some other people.
 \subsection{The Main Directory}
 Each document I created is fully contained in one directory. I use the
