@@ -13,10 +13,10 @@
    $author="Romaric Pujol";
    $title="Arrow Head Measures";
    $date="2013/09/28";
-   require_once "../../../eps-header.php";
-   require_once "../../../arrow-head.php";
+   require_once "../../../php/eps-header.php";
+   require_once "../../../php/arrow-head.php";
 
-   require_once "../../../SmartInsertFont.php";
+   require_once "../../../php/SmartInsertFont.php";
 ?>
 
 /theta <?php echo $theta; ?> def

@@ -3,9 +3,9 @@
    $ly=0;
    $ux=200;
    $uy=200;
-   require_once "../../../eps-header.php";
+   require_once "../../../php/eps-header.php";
 
-   require_once "../../../vector.php";
+   require_once "../../../php/vector.php";
 ?>
 
 gsave

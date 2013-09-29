@@ -6,9 +6,9 @@
    $author="Romaric Pujol";
    $date="2013/09/29";
    $title="plotfunction-bezier-stupid-hom Demo";
-   require_once '../../../eps-header.php';
+   require_once '../../../php/eps-header.php';
 
-   require_once '../../../vector.php';
+   require_once '../../../php/vector.php';
 ?>
 
 /xmin <?php echo -2*M_PI; ?> def
@@ -23,7 +23,7 @@
 /pi <?php echo M_PI; ?> def
 
 <?php
-   require_once '../../../plotfunction-bezier-stupid-hom.php';
+   require_once '../../../php/plotfunction-bezier-stupid-hom.php';
 ?>
 
 % Plots axes

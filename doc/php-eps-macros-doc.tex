@@ -37,14 +37,14 @@ and the \PS{} language.
 
 \section{Directory Content}
 \begin{itemize}
-\item \texttt{arrow-head.php}
-\item \texttt{coords.php}
-\item \texttt{eps-header.php}
-\item \texttt{fatal.php}
-\item \texttt{plotfunction-bezier-stupid-hom.php}
-\item \texttt{plotparametric-bezier-stupid-hom.php}
-\item \texttt{SmartInsertFont.php}
-\item \texttt{vector.php}
+\item \texttt{arrow-head.php}, see Section~\ref{ssec:arrow-head.php},
+\item \texttt{coords.php}, see Section~\ref{ssec:coords.php},
+\item \texttt{eps-header.php}, see Section~\ref{ssec:eps-header.php},
+\item \texttt{fatal.php}, see Section~\ref{ssec:fatal.php},
+\item \texttt{plotfunction-bezier-stupid-hom.php}, see Section~\ref{ssec:plotfunction-bezier-stupid-hom.php},
+\item \texttt{plotparametric-bezier-stupid-hom.php}, see Section~\ref{ssec:plotparametric-bezier-stupid-hom.php},
+\item \texttt{SmartInsertFont.php}, see Section~\ref{ssec:SmartInsertFont.php},
+\item \texttt{vector.php}, see Section~\ref{ssec:vector.php}.
 \end{itemize}
 
 \section{Structure of your PHP file}
@@ -77,7 +77,8 @@ Then, running \code{php file.php} will output the following EPS header:
 Afterwards, you're free to mix PHP and \PS.
 
 \section{Description of the PHP Files}
-\subsection{\texttt{arrow-header.php} --- Making Arrow heads}
+\subsection{\texttt{arrow-head.php} --- Making Arrow heads}
+\label{ssec:arrow-head.php}
 This file implements one \PS{} function to draw an arrow head.
 A typical arrow head is represented on Figure~\ref{fig:arrow-head-explained}.
 \begin{figure}[ht!]%
@@ -104,6 +105,7 @@ The \PS{} function uses the following variables for the dimensions:
 and these values can be modified.
 
 \subsection{\texttt{coords.php} --- Dealing with Coordinates}
+\label{ssec:coords.php}
 Even though the \PS{} language has these wonderful transformation matrices, it
 is not always recommended to use them for change of coordinates, since the
 transformation also changes the strokes (the lines that are drawn). This file
@@ -120,7 +122,14 @@ the relative frame must have been given. It uses eight variables:
 Include this file (or files that use it) after having defined
 these eight variables!
 
+\subsection{\texttt{eps-header.php} --- Let's Start!}
+\label{ssec:eps-header.php}
+You will very likely include this before anything else. Make sure you have the variables
+\code{$lx}, \code{$ly}, \code{$ux}, \code{$uy} defined. Optionally you can define the variables
+\code{$author}, \code{$title} and \code{$date}.
+
 \subsection{\texttt{fatal.php} --- Die Hard!}
+\label{ssec:fatal.php}
 This file only contains the PHP function \texttt{fatal} that takes $1+1$ arguments.
 The first argument is the error string to be output on \textit{stderr} and the other
 optional argument is:
@@ -132,6 +141,7 @@ in which case the exit code is $1$.
 If this optional argument is not give, the exit code is $1$.
 
 \subsection{\texttt{plotfunction-bezier-stupid-hom.php} --- Plot Graphs of Functions}
+\label{ssec:plotfunction-bezier-stupid-hom.php}
 This \PS{} function is to plot graphs of functions using B\'ezier curves (and not
 line segments). The result is usually a beautiful smooth curve that scales very
 well. But there are a few limitations. Read on.
@@ -166,7 +176,15 @@ $\cos$ and $\sin$ functions with the angle given in radians. That's because the
 Even though \texttt{PlotFunctionBezierStupidHom} is a stupid function with a
 naive algorithm, it still outputs beautiful curves in many cases!
 
+In fact, this PHP file include the file \texttt{plotparametric-bezier-stupid-hom.php},
+and uses its PlotParametricBezierStupidHom function. The implementation is just:
+\begin{lstlisting}
+/PlotFunctionBezierStupidHom {
+   { } { pop 1 } 7 2 roll PlotParametricBezierStupidHom
+\end{lstlisting}
+
 \subsection{\texttt{plotparametric-bezier-stupid-hom.php} --- Plot Parametric Curves}
+\label{ssec:plotparametric-bezier-stupid-hom.php}
 This \PS{} function is to plot parametric curves using B\'ezier curves (and not
 line segments). The result is usually a beautiful smooth curve that scales very
 well. But there are a few limitations. Read on.
@@ -207,8 +225,30 @@ $\cos$ and $\sin$ functions with the angle given in radians. That's because the
 Even though \texttt{PlotFunctionBezierStupidHom} is a stupid function with a
 naive algorithm, it still outputs beautiful curves in many cases!
 
+\subsection{\texttt{SmartInsertFont.php} --- Inserting Fonts}
+\label{ssec:SmartInsertFont.php}
+Text is one of the most difficult aspect of making an EPS file by hand. Putting
+just one letter here and there is (almost) fine, though. I'm planning to do
+some nice (and simple!) helpers to place them and maybe to compose simple text
+and maybe to drive a \TeX engine to typeset some for me\ldots but for now you
+only have the function PHP \texttt{SmartInsertFont} that will \texttt{locate}
+the fontname given. The syntax is:
+\begin{center}
+\texttt{SmartInsertFont\quad(}\quad\textit{fontname\quad[\quad,\quad path regex\quad]}\quad{)}
+\end{center}
+This will just dump the font in the document.
+\begin{figure}[ht!]%
+\centering
+\includegraphics{figs/SmartInsertFont/SmartInsertFont-demo}%
+\caption{\texttt{SmartInsertFont} helps inserting fonts in EPS document}%
+\label{fig:SmartInsertFont-demo.php}%
+\end{figure}
+
+Figure~\ref{fig:SmartInsertFont-demo.php} was obtained thus:
+\lstinputlisting[caption=SmartInsertFont-demo.php]{figs/SmartInsertFont/SmartInsertFont-demo.php}
 
 \subsection{\texttt{vector.php} --- Drawing Arrows}
+\label{ssec:vector.php}
 This file defines the \PS{} function \texttt{Vector} that draws a line segment
 with an arrow head. If the length of the line segment is less than the size
 of the arrow head, nothing is drawn (so as to not have an ugly arrow head on its own).

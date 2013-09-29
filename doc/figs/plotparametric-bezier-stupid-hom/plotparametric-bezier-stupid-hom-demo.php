@@ -6,7 +6,7 @@
    $author="Romaric Pujol";
    $title="Demo using plotparametric-bezier-stupid-hom.php";
    $date="2013/09/29";
-   require_once '../../../eps-header.php';
+   require_once '../../../php/eps-header.php';
 ?>
 
 /pi <?echo M_PI; ?> def
@@ -22,8 +22,8 @@
 /Ymax <?php echo "$uy"; ?> def
 
 <?php
-   require_once '../../../plotparametric-bezier-stupid-hom.php';
-   require_once '../../../vector.php';
+   require_once '../../../php/plotparametric-bezier-stupid-hom.php';
+   require_once '../../../php/vector.php';
 ?>
 
 /cosrad { 180 mul pi div cos } bind def
