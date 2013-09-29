@@ -15,10 +15,10 @@
     if(!isset($Xmax_name)) { $Xmax_name="Xmax"; }
     if(!isset($Ymin_name)) { $Ymin_name="Ymin"; }
     if(!isset($Ymax_name)) { $Ymax_name="Ymax"; }
-    if(!isset($Deltax_name)) { $Deltax_name="Deltax"; }
-    if(!isset($Deltay_name)) { $Deltay_name="Deltay"; }
-    if(!isset($DeltaX_name)) { $DeltaX_name="DeltaX"; }
-    if(!isset($DeltaY_name)) { $DeltaY_name="DeltaY"; }
+    if(!isset($Deltax_name)) { $Deltax_name="@Deltax"; }
+    if(!isset($Deltay_name)) { $Deltay_name="@Deltay"; }
+    if(!isset($DeltaX_name)) { $DeltaX_name="@DeltaX"; }
+    if(!isset($DeltaY_name)) { $DeltaY_name="@DeltaY"; }
 ?>
 /ComputeDelta {
 <?php

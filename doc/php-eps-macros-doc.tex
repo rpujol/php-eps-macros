@@ -42,6 +42,7 @@ and the \PS{} language.
 \item \texttt{eps-header.php}
 \item \texttt{fatal.php}
 \item \texttt{plotfunction-bezier-stupid-hom.php}
+\item \texttt{plotparametric-bezier-stupid-hom.php}
 \item \texttt{SmartInsertFont.php}
 \item \texttt{vector.php}
 \end{itemize}
@@ -153,7 +154,7 @@ Figure~\ref{fig:plotfunction-bezier-stupid-hom-demo} shows the result of:
 Notice the use of curly brackets to enclose $f$ and $f'$! Also notice that I
 defined functions \texttt{cosrad} and \texttt{sinrad} being the (regular)
 $\cos$ and $\sin$ functions with the angle given in radians. That's because the
-\PS{} \texttt{cos} and \texttt{sin} functions take an angle in degress.
+\PS{} \texttt{cos} and \texttt{sin} functions take an angle in degrees.
 
 \begin{figure}[ht!]%
 \centering
@@ -164,6 +165,48 @@ $\cos$ and $\sin$ functions with the angle given in radians. That's because the
 
 Even though \texttt{PlotFunctionBezierStupidHom} is a stupid function with a
 naive algorithm, it still outputs beautiful curves in many cases!
+
+\subsection{\texttt{plotparametric-bezier-stupid-hom.php} --- Plot Parametric Curves}
+This \PS{} function is to plot parametric curves using B\'ezier curves (and not
+line segments). The result is usually a beautiful smooth curve that scales very
+well. But there are a few limitations. Read on.
+
+Let me first explain the nomenclature: the part \emph{hom} in the name stands
+for homogeneous, that is the interval of parametrization is divided into $N$
+homogeneous subintervals ($N$ is given by the user). The part \emph{stupid} is
+because each subinterval of the subdivision of the parametrization is itself
+divided into three subintervals of equal lengths to determine the control
+points for the B\'ezier curve. This has some flaws if the function has, e.g.,
+very high velocities.
+
+To be able to use this \PS{} function to plot parametric curves, you need to
+know the derivative of your coordinate functions. The syntax is as follows:
+\begin{center}
+\texttt{\{}$x$\texttt{\}}\quad\texttt{\{}$x'$\texttt{\}}\quad\texttt{\{}$y$\texttt{\}}\quad\texttt{\{}$y'$\texttt{\}}\quad$t_{\text{min}}$\quad$t_{\text{max}}$\quad$N$\quad\texttt{PlotParametricBezierStupidHom}
+\end{center}
+
+Figure~\ref{fig:plotparametric-bezier-stupid-hom-demo} shows the result of:
+\lstinputlisting[caption=plotparametric-bezier-stupid-hom-demo.php]{figs/plotparametric-bezier-stupid-hom/plotparametric-bezier-stupid-hom-demo.php}
+It plots the parametric curve given by:
+\[\begin{cases}
+x'(t)=\dfrac t{2\pi}\cos t\\
+y'(t)=\dfrac t{2\pi}\sin t,
+\end{cases}\qquad t\in[0,4\pi].\]
+Notice the use of curly brackets to enclose $x$, $x'$, $y$ and $y'$! Also notice that I
+defined functions \texttt{cosrad} and \texttt{sinrad} being the (regular)
+$\cos$ and $\sin$ functions with the angle given in radians. That's because the
+\PS{} \texttt{cos} and \texttt{sin} functions take an angle in degrees.
+
+\begin{figure}[ht!]%
+\centering
+\includegraphics{figs/plotparametric-bezier-stupid-hom/plotparametric-bezier-stupid-hom-demo}%
+\caption{Parametric curve using the \texttt{plotparametric-bezier-stupid-hom.php} file}%
+\label{fig:plotparametric-bezier-stupid-hom-demo}%
+\end{figure}
+
+Even though \texttt{PlotFunctionBezierStupidHom} is a stupid function with a
+naive algorithm, it still outputs beautiful curves in many cases!
+
 
 \subsection{\texttt{vector.php} --- Drawing Arrows}
 This file defines the \PS{} function \texttt{Vector} that draws a line segment

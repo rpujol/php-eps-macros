@@ -14,7 +14,10 @@
       Hom: Uses a homoegeneous splitting of the range into N subintervals.
     */
     require_once 'coords.php';
+    require_once 'plotparametric-bezier-stupid-hom.php'
 ?>
+<? // Old version was:
+   /*
 /PlotFunctionBezierStupidHom {
    % f f' xmin xmax N PlotFunctionBezierStupidHom
    9 dict begin
@@ -37,4 +40,11 @@
          } for
       stroke
    end
+} bind def
+   */
+?>
+
+/PlotFunctionBezierStupidHom {
+   % f f' xmin xmax N PlotFunctionBezierStupidHom
+   { } { pop 1 } 7 2 roll PlotParametricBezierStupidHom
 } bind def
