@@ -1,6 +1,6 @@
 /ArrowHeadAngle 15 def
 /ArrowHeadProportion 1.67 def
-/ArrowHeadHorizontalSize 30 def
+/ArrowHeadHorizontalSize 3 def
 /ArrowHead {
    % angle X Y ArrowHead
    gsave

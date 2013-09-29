@@ -1,11 +1,13 @@
 \documentclass[a4paper]{scrartcl}
 
 \title{\texttt{php-eps-macros}}
-\subtitle{A set of helper macros in PHP to write EPS}
+\subtitle{A Set of Helper Macros in PHP to Write EPS Files}
 \author{Romaric Pujol\\\footnotesize{\texttt{romaric.pujol@insa-lyon.fr}}}
 \date{September 28, 2013}
 
+\usepackage{graphicx}
 \usepackage{listings}
+\usepackage{caption}
 
 \newcommand\code[1]{\lstinline{#1}}
 
@@ -33,10 +35,11 @@ In this document, we assume that the reader is already familiar with EPS files.
 \item \texttt{eps-header.php}
 \item \texttt{fatal.php}
 \item \texttt{SmartInsertFont.php}
+\item \texttt{vector.php}
 \end{itemize}
 
-\section{Structure of the PHP file}
-The PHP file should start as follows:
+\section{Structure of your PHP file}
+Your PHP file should start as follows:
 \lstset{language=PHP}
 \begin{lstlisting}
 <?php
@@ -63,5 +66,140 @@ Then, running \code{php file.php} will output the following EPS header:
 \end{lstlisting}
 
 Afterwards, you're free to mix PHP and EPS.
+
+\section{Description of the PHP Files}
+\subsection{\texttt{arrow-header.php} --- Making Arrow heads}
+This file implements one EPS function to draw an arrow head.
+A typical arrow head is represented on Figure~\ref{fig:arrow-head-explained}.
+\begin{figure}[ht!]%
+\centering
+\includegraphics{figs/arrow-head/arrow-head-measures}%
+\caption{Arrow head}%
+\label{fig:arrow-head-explained}
+\end{figure}
+
+The \code{require_once "arrow-head.php"} command will include the EPS function
+\texttt{ArrowHead} that draws arrow heads, used with the following syntax:
+\begin{center}
+\textit{angle}\quad$X$\quad$Y$\quad\texttt{ArrowHead}
+\end{center}
+where \textit{angle} is the angle (in degrees) from the horizontal,
+counterclockwise (Figure~\ref{fig:arrow-head-explained} shows an angle of $180$
+degrees) and $(X,Y)$ is the coordinate of the vertex of the arrow.
+The EPS function uses the following variables for the dimensions:
+\begin{itemize}
+\item \texttt{/ArrowHeadAngle}: the angle $\theta$. It is set to $15$ by default,
+\item \texttt{/ArrowHeadProportion}: the ratio $OB/OA$. It is set to $1.67$ by default,
+\item \texttt{/ArrowHeadHorizontalSize}: the length $AB$. It is set to $3$ by default,
+\end{itemize}
+and these values can be modified.
+
+\subsection{\texttt{coords.php} --- Dealing with Coordinates}
+Even though EPS has these wonderful transformation matrices, it is not always
+recommended to use them for change of coordinates, since the transformation
+also changes the strokes (the lines that are drawn). This file will include
+the \texttt{Coords} EPS function, to be used with the following syntax:
+\begin{center}
+$x$\quad$y$\quad\texttt{Coords}\quad$X$\quad$Y$
+\end{center}
+where the input is $(x,y)$, the coordinates in the relative frame, and the output $(X,Y)$
+is the coordinates in the absolute frame. For this function to work, the information about
+the relative frame must have been given. It uses eight variables:
+\texttt{xmin}, \texttt{ymin}, \texttt{xmax}, \texttt{ymax},
+\texttt{Xmin}, \texttt{Ymin}, \texttt{Xmax} and \texttt{Ymax}.
+
+\subsection{\texttt{fatal.php} --- Die Hard!}
+This file only contains the PHP function \texttt{fatal} that takes $1+1$ arguments.
+The first argument is the error string to be output on \textit{stderr} and the other
+optional argument is:
+\begin{itemize}
+\item either a numerical value that corresponds to the exit code,
+\item or another string that will be output to \textit{stderr} on a second line,
+in which case the exit code is $1$.
+\end{itemize}
+If this optional argument is not give, the exit code is $1$.
+
+\subsection{\texttt{vector.php} --- Drawing Arrows}
+This file defines the EPS function \texttt{Vector} that draws a line segment
+with an arrow head. If the length of the line segment is less than the size
+of the arrow head, nothing is drawn (so as to not have an ugly arrow head on its own).
+The syntax is as follows:
+\begin{center}
+$X_a$\quad$Y_a$\quad$X_b$\quad$Y_b$\quad\texttt{Vector}
+\end{center}
+This will draw a vector from $(X_a,Y_a)$ to $(X_b,Y_b)$. This file implicitly calls
+\texttt{arrow-head.php} and uses the EPS function \texttt{ArrowHead} for the arrow head.
+Figure~\ref{fig:vector-demo} represents such a vector.
+\begin{figure}[ht!]%
+\centering
+\includegraphics{figs/vector/vector-demo}%
+\caption{Vectors drawn by the EPS function \texttt{Vector} from file \texttt{vector.php}}%
+\label{fig:vector-demo}%
+\end{figure}
+
+\section{Tips}
+In this section I briefly describe my workflow tools for creating \LaTeX{}
+documents with EPS illustrations. It works perfectly well for me. I hope it can
+be useful to some other people.
+\subsection{The Main Directory}
+Each document I created is fully contained in one directory. I use the
+\texttt{git} version control system and a private server for backups, but
+that's not mandatory. Let's say the directory corresponding to my document
+is named \texttt{mydoc}. If the document contains several chapters or parts,
+I put each chapter or part in a different file.
+
+The tree structure of \texttt{mydoc} is as follows:
+\begin{lstlisting}
+$ tree -a
+.
+|__ bin
+    |__ some binarys (optional)...
+|__ document.tex
+|__ chapter1.tex
+|__ chapter2.tex
+...
+|__ figs
+    |__ figs_chapter1
+        |__ figure1.php
+        |__ figure2.php
+        |__ ...
+        |__ Makefile -> ../Makefile-figs
+    |__ figs_chapter2
+        |__ figure1.php
+        |__ figure2.php
+        |__ ...
+        |__ Makefile -> ../Makefile-figs
+    |__ ...
+    |__ Makefile
+    |__ Makefile-figs
+|__ .git
+    |__ the git stuff ...
+|__ .gitignore
+|__ Makefile
+|__ php
+    |__ the php files of this package
+\end{lstlisting}
+
+\subsection{The \texttt{Makefile}s}
+Im \texttt{mydoc/} I have a main \texttt{Makefile} with several rules. I use
+\texttt{latexmk} to generate the document. It typically looks like:
+\lstinputlisting[caption=\texttt{Makefile},language=make]{Makefile}
+
+Then, in the \texttt{figs/} directory, I have two \texttt{Makefile}s:
+\lstinputlisting[caption=\texttt{figs/Makefile},language=make]{figs/Makefile}
+and
+\lstinputlisting[caption=\texttt{figs/Makefile-figs},language=make]{figs/Makefile-figs}
+Then, in each \texttt{figs/chapter$x$} directory I soft link the \texttt{Makefile-figs}
+to a \texttt{Makefile} file using the command:
+\begin{center}
+\texttt{ln -s ../Makefile-figs ./Makefile}
+\end{center}
+Then I can add any directories in \texttt{figs/}, perform the previous command, and each PHP
+file in there will be converted to EPS and PDF automatically.
+
+\subsection{The Workflow}
+Generating my document is as easy as typing \lstinline{make} and adding new figures is just a matter
+of writing the PHP file in the corresponding \texttt{figs/chapter$x$} directory.
+The rule \texttt{make clean} or \texttt{make C} will clean up everything.
 \end{document}
 

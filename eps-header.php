@@ -6,6 +6,8 @@
       $ly
       $ux
       $uy
+
+      Optionally these can be set:
       $author
       $title
       $date
@@ -19,20 +21,14 @@
    if (!is_numeric($ux) or !is_numeric($uy) or !is_numeric($lx) or !is_numeric($ly)) {
       fatal('Error: Variables $ux or $uy or $lx or $ly not of numerical type.'."\n");
    }
-   if(!isset($author)) {
-      fatal('Error: Variable $author is not set.'."\n");
-   }
    if(!isset($date)) {
-      fatal('Error: Variable $date is not set.'."\n");
-   }
-   if(!isset($title)) {
-      fatal('Error: Variable $title is not set.'."\n");
+      $date=date("Y/m/d");
    }
 ?>
 %!PS-Adobe-2.0 EPSF-3.0
 %%BoundingBox: <?php echo "$lx $ly $ux $uy\n"; ?>
-%%Creator: <?php echo "$author\n"; ?>
+<?php if(isset($author)) echo "%%Creator: $author\n"; ?>
 %%CreationDate: <?php echo "$date\n"; ?>
-%%Title: <?php echo "$title\n"; ?>
+<?php if(isset($title)) echo "%%Title: $title\n"; ?>
 %%Pages: 1
 %%EndComments

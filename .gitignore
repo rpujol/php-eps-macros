@@ -2,3 +2,5 @@ doc/*.aux
 doc/*.fdb_latexmk
 doc/*.log
 doc/*.pdf
+doc/figs/*/*.eps
+doc/figs/*/*.pdf
