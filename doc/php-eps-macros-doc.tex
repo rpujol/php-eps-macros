@@ -1,4 +1,6 @@
-\documentclass[a4paper]{scrartcl}
+\documentclass[10pt,a4paper]{scrartcl}
+
+\usepackage{lmodern}
 
 \title{\texttt{php-eps-macros}}
 \subtitle{A Set of Helper Macros in PHP to Write EPS Files}
@@ -114,6 +116,8 @@ is the coordinates in the absolute frame. For this function to work, the informa
 the relative frame must have been given. It uses eight variables:
 \texttt{xmin}, \texttt{ymin}, \texttt{xmax}, \texttt{ymax},
 \texttt{Xmin}, \texttt{Ymin}, \texttt{Xmax} and \texttt{Ymax}.
+Include this file (or files that use it) after having defined
+these eight variables!
 
 \subsection{\texttt{fatal.php} --- Die Hard!}
 This file only contains the PHP function \texttt{fatal} that takes $1+1$ arguments.
