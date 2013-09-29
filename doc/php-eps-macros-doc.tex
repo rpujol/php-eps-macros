@@ -20,6 +20,10 @@
 
 \newcommand\PS{PostScript}
 
+\newenvironment{note}{\par\leavevmode\medskip\textbf{Note.} }{\par\leavevmode\medskip}
+
+\usepackage{hyperref}
+
 \begin{document}
 \maketitle
 \section{Introduction}
@@ -246,6 +250,10 @@ This will just dump the font in the document.
 
 Figure~\ref{fig:SmartInsertFont-demo.php} was obtained thus:
 \lstinputlisting[caption=SmartInsertFont-demo.php]{figs/SmartInsertFont/SmartInsertFont-demo.php}
+
+\begin{note}
+You need to have \texttt{t1ascii} installed to use this function.
+\end{note}
 
 \subsection{\texttt{vector.php} --- Drawing Arrows}
 \label{ssec:vector.php}
