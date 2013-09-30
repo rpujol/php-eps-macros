@@ -6,10 +6,11 @@
    gsave
       translate
       180 add rotate
-      0 0 moveto
-      ArrowHeadHorizontalSize ArrowHeadProportion mul dup ArrowHeadAngle cos mul exch ArrowHeadAngle sin mul 2 copy lineto
-      ArrowHeadHorizontalSize 0 lineto
-      neg lineto closepath
+      newpath
+         0 0 moveto
+         ArrowHeadHorizontalSize ArrowHeadProportion mul dup ArrowHeadAngle cos mul exch ArrowHeadAngle sin mul 2 copy lineto
+         ArrowHeadHorizontalSize 0 lineto
+         neg lineto closepath
       fill
    grestore
 } bind def

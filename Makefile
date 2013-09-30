@@ -1,22 +1,22 @@
 SHELL=/bin/sh
 
-.PHONY: all c C clean doc help
+.PHONY: all c C clean cleanREADME doc help
 
 all: doc README README.html
 
 doc:
 	@$(MAKE) -C doc
 
-c:
+c: cleanREADME
 	@$(MAKE) -C doc c
-	@-rm -rfv README README.html
 
-C:
+C: cleanREADME
 	@$(MAKE) -C doc C
-	@-rm -rfv README README.html
 
-clean:
+clean: cleanREADME
 	@$(MAKE) -C doc clean
+
+cleanREADME:
 	@-rm -rfv README README.html
 
 help:
@@ -26,6 +26,7 @@ help:
 	@-echo "   c"
 	@-echo "   C"
 	@-echo "   clean"
+	@-echo "   cleanREADME"
 	@-echo "   help"
 	@-echo "   README"
 	@-echo "   README.html"
