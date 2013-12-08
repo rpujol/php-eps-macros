@@ -5,3 +5,4 @@
 /sinr { 180 mul pi div sin } bind def
 /cosr { 180 mul pi div cos } bind def
 /tanr { 180 mul pi div tan } bind def
+/atanr { atan pi mul 180 div } bind def
