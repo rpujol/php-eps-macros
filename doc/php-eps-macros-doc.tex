@@ -45,6 +45,7 @@ and the \PS{} language.
 \item \texttt{coords.php}, see Section~\ref{ssec:coords.php},
 \item \texttt{eps-header.php}, see Section~\ref{ssec:eps-header.php},
 \item \texttt{fatal.php}, see Section~\ref{ssec:fatal.php},
+\item \texttt{newton-solver.php}, see Section~\ref{ssec:newton-solver.php},
 \item \texttt{plotfunction-bezier-stupid-hom.php}, see Section~\ref{ssec:plotfunction-bezier-stupid-hom.php},
 \item \texttt{plotparametric-bezier-stupid-hom.php}, see Section~\ref{ssec:plotparametric-bezier-stupid-hom.php},
 \item \texttt{SmartInsertFont.php}, see Section~\ref{ssec:SmartInsertFont.php},
@@ -143,6 +144,18 @@ optional argument is:
 in which case the exit code is $1$.
 \end{itemize}
 If this optional argument is not give, the exit code is $1$.
+
+\subsection{\texttt{newton-solver.php} --- Equation solver}
+\label{ssec:newton-solver.php}
+This \PS{} function is to find approximations of roots of an equation
+of the form $f(x)=0$ using the Newton--Raphson method. The syntax is:
+\begin{center}
+\texttt{\{}$f$\texttt{\}}\quad\texttt{\{}$f'$\texttt{\}}\quad$x_0$\quad$\varepsilon$\quad\texttt{NewtonSolver}\quad$x^*$
+\end{center}
+where $f$ is the function to find the root of, $f'$ is its derivative, $x_0$ is an approximation of a root
+and $\varepsilon$ is the wanted accuracy. The method will stop when either $\lvert x_{\text{next}}-x\rvert\leq\varepsilon$
+or after \verb=@NewtonSolverMaxIterations\verb= number of iterations. The \PS{} variable \verb=@NewtonSolverMaxIterations\verb=
+is set to $20$ by default. The approximation of the root, $x^*$ is pushed onto the stack.
 
 \subsection{\texttt{plotfunction-bezier-stupid-hom.php} --- Plot Graphs of Functions}
 \label{ssec:plotfunction-bezier-stupid-hom.php}
