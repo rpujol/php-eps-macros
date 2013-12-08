@@ -49,6 +49,7 @@ and the \PS{} language.
 \item \texttt{plotfunction-bezier-stupid-hom.php}, see Section~\ref{ssec:plotfunction-bezier-stupid-hom.php},
 \item \texttt{plotparametric-bezier-stupid-hom.php}, see Section~\ref{ssec:plotparametric-bezier-stupid-hom.php},
 \item \texttt{SmartInsertFont.php}, see Section~\ref{ssec:SmartInsertFont.php},
+\item \texttt{trigonometry.php}, see Section~\ref{ssec:trigonometry.php},
 \item \texttt{vector.php}, see Section~\ref{ssec:vector.php}.
 \end{itemize}
 
@@ -154,7 +155,7 @@ of the form $f(x)=0$ using the Newton--Raphson method. The syntax is:
 \end{center}
 where $f$ is the function to find the root of, $f'$ is its derivative, $x_0$ is an approximation of a root
 and $\varepsilon$ is the wanted accuracy. The method will stop when either $\lvert x_{\text{next}}-x\rvert\leq\varepsilon$
-or after \verb=@NewtonSolverMaxIterations\verb= number of iterations. The \PS{} variable \verb=@NewtonSolverMaxIterations\verb=
+or after \verb=@NewtonSolverMaxIterations= number of iterations. The \PS{} variable \verb=@NewtonSolverMaxIterations=
 is set to $20$ by default. The approximation of the root, $x^*$ is pushed onto the stack.
 
 \subsection{\texttt{plotfunction-bezier-stupid-hom.php} --- Plot Graphs of Functions}
@@ -241,6 +242,12 @@ $\cos$ and $\sin$ functions with the angle given in radians. That's because the
 
 Even though \texttt{PlotFunctionBezierStupidHom} is a stupid function with a
 naive algorithm, it still outputs beautiful curves in many cases!
+
+\subsection{\texttt{trigonometry.php} --- Elementary Trigonometry in Radians}
+\label{ssec:trigonometry.php}
+This just defines the \PS{} macro \verb=pi= for $\pi$ and the $\sin$, $\cos$
+and $\tan$ functions in radians as the \PS{} macros \verb=sinr=,
+\verb=cosr= and \verb=tanr= respectively.
 
 \subsection{\texttt{SmartInsertFont.php} --- Inserting Fonts}
 \label{ssec:SmartInsertFont.php}
