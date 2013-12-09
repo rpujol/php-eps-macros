@@ -33,4 +33,12 @@
    <?php echo "$ymin_name sub $DeltaY_name mul $Deltay_name div $Ymin_name add exch\n"; ?>
    <?php echo "$xmin_name sub $DeltaX_name mul $Deltax_name div $Xmin_name add exch\n"; ?>
 } bind def
+/deltay2DeltaY {
+   % dy deltay2DeltaY DY
+   <?php echo "$DeltaY_name mul $Deltay_name div"; ?>
+} bind def
+/deltax2DeltaX {
+   % dx deltax2DeltaX DX
+   <?php echo "$DeltaX_name mul $Deltax_name div"; ?>
+} bind def
 ComputeDelta
