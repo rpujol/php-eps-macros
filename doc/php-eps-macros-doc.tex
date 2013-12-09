@@ -47,6 +47,7 @@ and the \PS{} language.
 \item \texttt{fatal.php}, see Section~\ref{ssec:fatal.php},
 \item \texttt{newton-solver.php}, see Section~\ref{ssec:newton-solver.php},
 \item \texttt{plotfunction-bezier-stupid-hom.php}, see Section~\ref{ssec:plotfunction-bezier-stupid-hom.php},
+\item \texttt{plotimplicit-bezier-stupid-hom.php}, see Section~\ref{ssec:plotimplicit-bezier-stupid-hom.php},
 \item \texttt{plotparametric-bezier-stupid-hom.php}, see Section~\ref{ssec:plotparametric-bezier-stupid-hom.php},
 \item \texttt{SmartInsertFont.php}, see Section~\ref{ssec:SmartInsertFont.php},
 \item \texttt{trigonometry.php}, see Section~\ref{ssec:trigonometry.php},
@@ -200,6 +201,23 @@ and uses its PlotParametricBezierStupidHom function. The implementation is just:
 /PlotFunctionBezierStupidHom {
    { } { pop 1 } 7 2 roll PlotParametricBezierStupidHom
 \end{lstlisting}
+
+\subsection{\texttt{plotimplicit-bezier-stupid-hom.php} --- Plot Implicit Curve}
+\label{ssec:plotimplicit-bezier-stupid-hom.php}
+These \PS{} functions are to plot implicit curves using B\'ezier curves (and not
+line segments). The result is usually a beautiful smooth curve that scales very
+well. But there are a few limitations. Read on.
+
+Let me first explain the nomenclature: the part \emph{hom} in the name stands
+for homogeneous, that is the interval of parametrization is divided into $N$
+homogeneous subintervals ($N$ is given by the user). The part \emph{stupid} is
+because each subinterval of the subdivision of the parametrization is itself
+divided into three subintervals of equal lengths to determine the control
+points for the B\'ezier curve.
+
+There are two functions here. Depending on how you want to determine the portion
+you want to plot, you'll use one or the other.
+%%TODO: Explain!
 
 \subsection{\texttt{plotparametric-bezier-stupid-hom.php} --- Plot Parametric Curves}
 \label{ssec:plotparametric-bezier-stupid-hom.php}
