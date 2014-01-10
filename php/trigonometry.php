@@ -15,8 +15,12 @@
 } bind def
 /asinr {
    % Using formula: asin(x)=atan2(x,sqrt(1-x^2))
-   dup dup % x x x
-   mul % x x^2
+   dup dup dup % x x x x
+   mul % x x x^2
    neg 1 add sqrt % x 1-x^2
-   atanr
+   atanr % x asin(x)
+   exch
+   0 lt {
+      2 pi mul sub
+   } if
 } bind def
