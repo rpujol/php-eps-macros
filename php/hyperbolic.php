@@ -2,7 +2,7 @@
    /* Just basic hyperbolic and exponentials */
 ?>
 /E <?php echo M_E; ?> def
-/EXP { exch exp } bind def
+/EXP { E exch exp } bind def
 /cosh { dup EXP exch neg EXP add 2 div } bind def
 /sinh { dup EXP exch neg EXP sub 2 div } bind def
 /tanh { dup sinh exch cosh div } bind def

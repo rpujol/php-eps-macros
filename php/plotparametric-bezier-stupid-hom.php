@@ -17,6 +17,8 @@
     */
     require_once 'coords.php';
 ?>
+/PlotStupidHom@newpath true def
+/PlotStupidHom@initpoint true def
 /PlotParametricBezierStupidHom {
    % x x' y y' tmin tmax N PlotParametricBezierStupidHom
    12 dict begin
@@ -29,8 +31,8 @@
       /@x exch def
       /@Dt @tmax @tmin sub def
       /@dt3 @Dt @N div 3 div def
-      newpath
-         @tmin @x @tmin @y Coords moveto
+      PlotStupidHom@newpath { newpath } if
+         PlotStupidHom@newpath PlotStupidHom@initpoint or { @tmin @x @tmin @y Coords moveto } if
          0 1 @N 1 sub {
             /@k exch def
             /@t @tmin @Dt @N div @k mul add def
@@ -40,6 +42,6 @@
             @tnext @x @tnext @y Coords
             curveto
          } for
-      stroke
+      PlotStupidHom@newpath { stroke } if
    end
 } bind def
