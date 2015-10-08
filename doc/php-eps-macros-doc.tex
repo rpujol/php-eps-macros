@@ -109,7 +109,7 @@ The \PS{} function uses the following variables for the dimensions:
 \begin{itemize}
 \item \texttt{/ArrowHeadAngle}: the angle $\theta$. It is set to $15$ by default,
 \item \texttt{/ArrowHeadProportion}: the ratio $OB/OA$. It is set to $1.67$ by default,
-\item \texttt{/ArrowHeadHorizontalSize}: the length $AB$. It is set to $3$ by default,
+\item \texttt{/ArrowHeadHorizontalSize}: the length $OB$. It is set to $3$ by default,
 \end{itemize}
 and these values can be modified.
 
@@ -331,6 +331,11 @@ Figure~\ref{fig:vector-demo} represents such a vector.
 \caption{Vectors drawn by the \PS{} function \texttt{Vector} from file \texttt{vector.php}}%
 \label{fig:vector-demo}%
 \end{figure}
+There's also the \texttt{DoubleVector} macro that draws an arrow head
+at both sides of the segment:
+\begin{center}
+$X_a$\quad$Y_a$\quad$X_b$\quad$Y_b$\quad\texttt{DoubleVector}
+\end{center}
 
 \section{Tips}
 In this section I briefly describe my workflow tools for creating \LaTeX{}

@@ -9,8 +9,8 @@
    require_once '../../../php/eps-header.php';
 ?>
 
-/pi <?echo M_PI; ?> def
-/2pi <?echo 2*M_PI; ?> def
+/pi <?php echo M_PI; ?> def
+/2pi <?php echo 2*M_PI; ?> def
 
 /xmin -2.4 def
 /xmax 2.4 def

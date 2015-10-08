@@ -17,8 +17,8 @@ eps: $(EPSFILES)
 
 # Generic rules
 %.eps: %.php
-	@php $< > $@
+	php $< > $@
 
 %.pdf: %.eps
-	@epstopdf $< > $@
+	epstopdf $< > $@
 
