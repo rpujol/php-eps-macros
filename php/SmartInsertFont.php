@@ -22,7 +22,7 @@
          so that locate matches that name exactly */
       exec("locate -b $esa",$found_ary,$return_value);
       if($return_value!=0) {
-         fatal("Error in LocateFont while processing locate: maybe there are no found fonts. Returned $return_value.",$retrn_value);
+         fatal("Error in LocateFont while processing locate: maybe there are no found fonts. Returned $return_value.",$return_value);
       }
       /* Separate the font name with the directory name */
       $old_found_ary=$found_ary;
